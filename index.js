@@ -15,7 +15,8 @@ const AUTOMATION_ID_SAFELIST = [
   '5a4f9964-7cfc-4ebc-8bc0-89e54b0a5d5a', // Spark Kindle Drip Campaign
   '436c453f-ef7c-42b4-bba8-15cf3a5ed3ed', // Spark Kindle Drip Campaign Exit
   '9ef909e9-def8-4c74-afd6-2cfc465bb7b5', // Care Spark Kindle Drip Campaign
-  '9c628c07-cd0e-429e-97b7-b271829e39b0'  // Care Spark Kindle Drip Campaign Exit
+  '9c628c07-cd0e-429e-97b7-b271829e39b0',  // Care Spark Kindle Drip Campaign Exit
+  '01ce8c81-3a67-4316-9d79-d94c2526ebd7', // Scheduling > Nylas V3 Migration
 ]
 
 const DISABLED_EVENT_PREFIX = 'NOT_AVAILABLE ';
