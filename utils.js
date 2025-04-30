@@ -62,3 +62,64 @@ export const saveAutomationV2TemplateQl = (nodes, template_with_graph) => ({
   query:
     "mutation SaveAutomationV2Template($template: JSON!, $nodes: JSON!) {\n  automationsV2 {\n    saveTemplate(template: $template, nodes: $nodes)\n    __typename\n  }\n}\n",
 });
+
+export const getAutomationV3TemplateGraphQL = (template_id) => ({
+  operationName: "GetAutomationTemplate",
+  variables: {
+    templateId: template_id,
+  },
+  query: `query GetAutomationTemplate($templateId: String!) {
+    automationTemplate(templateId: $templateId) {
+      id
+      templateId
+      name
+      template
+      json
+      alias
+      cancelationToken
+      createdAt
+      updatedAt
+      publishedVersion
+      publishedAt
+    }
+  }`
+});
+
+export const saveAutomationV3TemplateGraphQL = (template) => ({
+  operationName: "SaveAutomationTemplate",
+  variables: {
+    template: {
+      ...template,
+      templateId: template.id
+    }
+  },
+  query: `mutation SaveAutomationTemplate($template: IAutomationTemplateDataInput!) {
+    saveAutomationTemplate(template: $template) {
+      id
+      templateId
+      name
+      template
+      json
+      alias
+      cancelationToken
+      createdAt
+      updatedAt
+      publishedVersion
+      publishedAt
+    }
+  }`
+});
+
+export const publishAutomationV3TemplateGraphQL = (template_id) => ({
+  operationName: "PublishAutomationTemplate",
+  variables: {
+    templateId: template_id
+  },
+  query: `mutation PublishAutomationTemplate($templateId: String!) {
+    publishAutomationTemplate(templateId: $templateId) {
+      templateId
+      publishedVersion
+      publishedAt
+    }
+  }`
+});
