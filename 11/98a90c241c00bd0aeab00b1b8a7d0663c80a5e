@@ -1,0 +1,32 @@
+preferences.js
+  s_162ac5cce7ff37::t_d802e12b915b6e 1-187
+plan.js
+  s_162ac5cce7ff37::t_37bfc3f2129f27 1-55
+index.js
+  s_162ac5cce7ff37::t_53642d5971af86 6,13
+plan.test.js
+  s_162ac5cce7ff37::t_935dd814319e0e 1-64,73-78
+  s_162ac5cce7ff37::t_d00c0e420e25b0 65-72
+package.json
+  s_162ac5cce7ff37::t_292ec28a860690 10-11
+README.md
+  s_162ac5cce7ff37::t_60bda7c9567e81 28-59
+utils.js
+  s_162ac5cce7ff37::t_d53bfcccf60c02 65-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1198a90c241c00bd0aeab00b1b8a7d0663c80a5e",
+  "prompts": {},
+  "sessions": {
+    "s_162ac5cce7ff37": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "efe52ab0-0f88-40ab-bce3-2eb0c66f4413",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  }
+}
