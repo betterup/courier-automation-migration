@@ -62,3 +62,16 @@ export const saveAutomationV2TemplateQl = (nodes, template_with_graph) => ({
   query:
     "mutation SaveAutomationV2Template($template: JSON!, $nodes: JSON!) {\n  automationsV2 {\n    saveTemplate(template: $template, nodes: $nodes)\n    __typename\n  }\n}\n",
 });
+
+// check JWT expiration
+export const checkJWTExpiration = (locale) => {
+  const payload = JSON.parse(
+    Buffer.from(authorizations[locale].split(".")[1], "base64").toString(
+      "utf-8",
+    ),
+  );
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp < now) {
+    throw Error("JWT expired: " + locale);
+  }
+};

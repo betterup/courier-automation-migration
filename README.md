@@ -25,6 +25,38 @@ $ node index.js <environment>
 
 `environment` must equal `test` or `production`. By default it will run in `test`
 
+## Copying subscription topics
+
+Courier does not copy subscription topics from US to EU, and the template sync
+keeps the US topic id on each EU template. So a new topic must exist in EU with
+the same id as in US. The public API and the Studio editor always make a new id.
+`preferences.js` copies the topics you name, with their ids, through the same
+Studio API as the automation sync. Setup is the same as above.
+
+```bash
+$ node preferences.js <environment> <topic_id> [<topic_id> ...]          # dry run
+$ node preferences.js <environment> <topic_id> [<topic_id> ...] --apply  # write
+```
+
+`environment` must equal `test` or `production`. Test and production keep
+separate topics, so run it for each.
+
+- Without `--apply` it only reads. For each topic it shows the US section, whether
+  EU has the topic with the same id, and any EU topic with the same name and
+  another id.
+- With `--apply` it creates the topic's section in EU if EU does not have it,
+  copies each topic that EU does not have, then reads EU again.
+- It changes only the topics you name. It does not save existing sections again,
+  change topics that EU already has, or link templates (the template sync does
+  that).
+- It stops before writing if US does not have a topic id, and stops at once if
+  EU saves a section or topic with another id.
+
+Run `--apply` in `test` first and check the EU test dashboard before
+`production`.
+
+To run the tests: `yarn test`.
+
 ## Troubleshooting
 
 ### JWT expired error
