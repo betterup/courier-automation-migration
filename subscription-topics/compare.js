@@ -1,6 +1,6 @@
 // Compares the given subscription topics in the source and target
 // workspaces, and lists the sections and topics that the target lacks.
-// copy.js prints this in a dry run and writes it with --apply. It makes no
+// copy-to-eu.js prints this in a dry run and writes it with --apply. It makes no
 // Courier calls, so the tests can run it on sample data. Sections and
 // topics are the `preferenceSections` nodes of the Studio API.
 

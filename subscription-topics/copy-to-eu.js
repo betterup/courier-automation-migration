@@ -8,7 +8,7 @@ import { getHeaders } from "../utils.js";
 import { authorizations, graphqlEndpoint } from "../variables.js";
 
 const USAGE =
-  "Usage: node subscription-topics/copy.js <test|production> <topic_id> [<topic_id> ...] [--apply]";
+  "Usage: node subscription-topics/copy-to-eu.js <test|production> <topic_id> [<topic_id> ...] [--apply]";
 
 // check JWT expiration
 const checkJWTExpiration = (locale) => {

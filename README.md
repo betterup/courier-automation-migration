@@ -30,13 +30,13 @@ $ node index.js <environment>
 Courier does not copy subscription topics from US to EU, and the template sync
 keeps the US topic id on each EU template. So a new topic must exist in EU with
 the same id as in US. The public API and the Studio editor always make a new id.
-`subscription-topics/copy.js` copies the topics you name, with their ids, through
-the same Studio API as the automation sync. Setup is the same as above. Run it
-from the repo root, where `.env` is.
+`subscription-topics/copy-to-eu.js` copies the topics you name, with their ids,
+through the same Studio API as the automation sync. Setup is the same as above.
+Run it from the repo root, where `.env` is.
 
 ```bash
-$ node subscription-topics/copy.js <environment> <topic_id> [<topic_id> ...]          # dry run
-$ node subscription-topics/copy.js <environment> <topic_id> [<topic_id> ...] --apply  # write
+$ node subscription-topics/copy-to-eu.js <environment> <topic_id> [<topic_id> ...]          # dry run
+$ node subscription-topics/copy-to-eu.js <environment> <topic_id> [<topic_id> ...] --apply  # write
 ```
 
 `environment` must equal `test` or `production`. Test and production keep
