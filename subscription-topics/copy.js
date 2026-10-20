@@ -3,12 +3,25 @@ import fetch from "node-fetch";
 import get from "lodash/get.js";
 import omit from "lodash/omit.js";
 
-import { planTopicCopy } from "./plan.js";
-import { checkJWTExpiration, getHeaders } from "./utils.js";
-import { graphqlEndpoint } from "./variables.js";
+import { compareTopics } from "./compare.js";
+import { getHeaders } from "../utils.js";
+import { authorizations, graphqlEndpoint } from "../variables.js";
 
 const USAGE =
-  "Usage: node preferences.js <test|production> <topic_id> [<topic_id> ...] [--apply]";
+  "Usage: node subscription-topics/copy.js <test|production> <topic_id> [<topic_id> ...] [--apply]";
+
+// check JWT expiration
+const checkJWTExpiration = (locale) => {
+  const payload = JSON.parse(
+    Buffer.from(authorizations[locale].split(".")[1], "base64").toString(
+      "utf-8",
+    ),
+  );
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp < now) {
+    throw Error("JWT expired: " + locale);
+  }
+};
 
 const request = async (environment, locale, body) => {
   const name = body.operationName || "preferenceSections";
@@ -119,8 +132,8 @@ const saveTopic = async (environment, locale, topic, sectionId) => {
   });
 };
 
-const printPlan = (plan) => {
-  for (const t of plan.topics) {
+const printComparison = (comparison) => {
+  for (const t of comparison.topics) {
     if (!t.inSource) {
       console.log(`${t.topicId}  US: not found`);
       continue;
@@ -133,37 +146,37 @@ const printPlan = (plan) => {
       console.log(`  EU has a topic with the same name and another id: ${otherId}`);
     }
   }
-  const sections = plan.sectionsToCreate.map((s) => `"${s.name}" (${s.sectionId})`);
+  const sections = comparison.sectionsToCreate.map((s) => `"${s.name}" (${s.sectionId})`);
   console.log(`Sections to create in EU: ${sections.join(", ") || "none"}`);
-  console.log(`Topics to copy to EU: ${plan.topicsToCopy.length}`);
+  console.log(`Topics to copy to EU: ${comparison.topicsToCopy.length}`);
 };
 
 const copyTopics = async (environment, topicIds, apply) => {
   console.log(`Environment: ${environment} (US => EU)`);
   const usSections = await getSections(environment, "us");
-  const plan = planTopicCopy(usSections, await getSections(environment, "eu"), topicIds);
-  printPlan(plan);
+  const comparison = compareTopics(usSections, await getSections(environment, "eu"), topicIds);
+  printComparison(comparison);
 
-  if (plan.missingInSource.length > 0) {
-    throw Error(`Not in US: ${plan.missingInSource.join(", ")}. Nothing written.`);
+  if (comparison.missingInSource.length > 0) {
+    throw Error(`Not in US: ${comparison.missingInSource.join(", ")}. Nothing written.`);
   }
   if (!apply) {
     console.log("Dry run: nothing written. Add --apply to write.");
     return;
   }
 
-  for (const section of plan.sectionsToCreate) {
+  for (const section of comparison.sectionsToCreate) {
     await saveSection(environment, "eu", section);
     console.log(`Created section "${section.name}" (${section.sectionId})`);
   }
-  for (const { topic, sectionId } of plan.topicsToCopy) {
+  for (const { topic, sectionId } of comparison.topicsToCopy) {
     await saveTopic(environment, "eu", topic, sectionId);
     console.log(`Copied topic "${topic.templateName}" (${topic.templateId})`);
   }
 
   console.log("\nRead back from EU:");
-  const after = planTopicCopy(usSections, await getSections(environment, "eu"), topicIds);
-  printPlan(after);
+  const after = compareTopics(usSections, await getSections(environment, "eu"), topicIds);
+  printComparison(after);
   if (after.topicsToCopy.length > 0) {
     throw Error("Some topics are still missing in EU.");
   }

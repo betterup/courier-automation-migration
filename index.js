@@ -3,14 +3,13 @@ import fetch from "node-fetch";
 import get from "lodash/get.js";
 
 import {
-  checkJWTExpiration,
   getAutomationNodesGraphQL,
   getAutomationTemplateGraphQL,
   getHeaders,
   saveAutomationV2GraphQL,
   saveAutomationV2TemplateQl,
 } from "./utils.js";
-import { graphqlEndpoint } from "./variables.js";
+import { authorizations, graphqlEndpoint } from "./variables.js";
 
 const AUTOMATION_ID_SAFELIST = [
   '5a4f9964-7cfc-4ebc-8bc0-89e54b0a5d5a', // Spark Kindle Drip Campaign
@@ -168,6 +167,19 @@ const syncAutomations = async (environment) => {
       console.log(JSON.stringify(nodeErrors));
       console.log(JSON.stringify(templateErrors));
     }
+  }
+};
+
+// check JWT expiration
+const checkJWTExpiration = (locale) => {
+  const payload = JSON.parse(
+    Buffer.from(authorizations[locale].split(".")[1], "base64").toString(
+      "utf-8",
+    ),
+  );
+  const now = Math.floor(Date.now() / 1000);
+  if (payload.exp < now) {
+    throw Error("JWT expired: " + locale);
   }
 };
 

@@ -1,6 +1,8 @@
-// Works out what to write in the target workspace so that it has the given
-// subscription topics with the same ids as the source workspace. Sections
-// and topics are the `preferenceSections` nodes of the Studio API.
+// Compares the given subscription topics in the source and target
+// workspaces, and lists the sections and topics that the target lacks.
+// copy.js prints this in a dry run and writes it with --apply. It makes no
+// Courier calls, so the tests can run it on sample data. Sections and
+// topics are the `preferenceSections` nodes of the Studio API.
 
 const topicsOf = (section) => section?.preferenceGroups?.nodes || [];
 
@@ -12,7 +14,7 @@ const findTopic = (sections, topicId) => {
   return null;
 };
 
-export const planTopicCopy = (sourceSections, targetSections, topicIds) => {
+export const compareTopics = (sourceSections, targetSections, topicIds) => {
   const targetTopics = targetSections.flatMap(topicsOf);
   const targetSectionIds = new Set(targetSections.map((s) => s.sectionId));
   const sectionsToCreate = new Map();
