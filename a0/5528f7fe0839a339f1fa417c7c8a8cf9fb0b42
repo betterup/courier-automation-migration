@@ -1,0 +1,24 @@
+README.md
+  s_f09f16588756f4::t_a230b20a2dca35 33-35
+  s_f09f16588756f4::t_cf3d5743863eae 38-39
+subscription-topics/compare.js
+  s_f09f16588756f4::t_3298bda3b9c5a4 3
+subscription-topics/copy-to-eu.js
+  s_f09f16588756f4::t_8cc5cb46e24619 11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "a05528f7fe0839a339f1fa417c7c8a8cf9fb0b42",
+  "prompts": {},
+  "sessions": {
+    "s_f09f16588756f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9187bc5b-bfee-4c86-a68c-bfc219565607",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  }
+}
