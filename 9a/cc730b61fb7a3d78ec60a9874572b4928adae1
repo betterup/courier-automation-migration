@@ -1,0 +1,20 @@
+README.md
+  s_e2d5b0ab1added::t_54e5c33de882e7 28-31,34-43
+  s_e2d5b0ab1added::t_5dea37282a04f8 32-33
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9acc730b61fb7a3d78ec60a9874572b4928adae1",
+  "prompts": {},
+  "sessions": {
+    "s_e2d5b0ab1added": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c84d4026-3940-49c1-b1fe-ccf61eb1e70d",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Rodrigo Gordienko Benítez <rodrigo.gordienko@cedarcode.com>"
+    }
+  }
+}
