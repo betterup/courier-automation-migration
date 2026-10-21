@@ -191,6 +191,14 @@ if (!["test", "production"].includes(environment) || topicIds.length === 0) {
   process.exit(1);
 }
 
+const unset = ["TENANT_ID", "US_AUTHORIZATION", "EU_AUTHORIZATION"].filter(
+  (key) => !process.env[key],
+);
+if (unset.length > 0) {
+  console.error(`Not set in .env: ${unset.join(", ")}. See the README setup.`);
+  process.exit(1);
+}
+
 checkJWTExpiration("us");
 checkJWTExpiration("eu");
 
