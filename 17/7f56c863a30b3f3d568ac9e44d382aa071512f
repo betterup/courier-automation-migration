@@ -1,0 +1,19 @@
+index.js
+  s_f2e3bb134da442::t_79c2901932e5d2 48-49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "177f56c863a30b3f3d568ac9e44d382aa071512f",
+  "prompts": {},
+  "sessions": {
+    "s_f2e3bb134da442": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "13eaecd5-5b2e-4162-8d37-d7dbd7c4d515",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Rodrigo Gordienko <rodrigo.gordienko@cedarcode.com>"
+    }
+  }
+}
