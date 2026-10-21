@@ -25,6 +25,22 @@ $ node index.js <environment>
 
 `environment` must equal `test` or `production`. By default it will run in `test`
 
+## Enabling an automation in EU
+
+The script copies every automation to EU, but only the automations in
+`AUTOMATION_ID_SAFELIST` (`index.js`) run there. For any other automation, the
+script adds the `NOT_AVAILABLE ` prefix to its Segment trigger event, so the
+automation never starts in EU.
+
+When you create a new automation in the US production workspace, or change one
+that EEA members must get:
+
+1. Add the automation ID to `AUTOMATION_ID_SAFELIST`, with the automation name
+   as a comment. The ID is in the automation URL in Courier.
+2. Merge the change, then run `node index.js production`.
+3. In the Courier EU workspace, open the automation and check that its trigger
+   event has no `NOT_AVAILABLE ` prefix.
+
 ## Copying subscription topics
 
 ### Why
