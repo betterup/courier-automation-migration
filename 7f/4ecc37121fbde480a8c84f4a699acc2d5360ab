@@ -1,0 +1,19 @@
+subscription-topics/copy-to-eu.js
+  s_bf36029b0bf86b::t_9140bb64fc2dde 194-201
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7f4ecc37121fbde480a8c84f4a699acc2d5360ab",
+  "prompts": {},
+  "sessions": {
+    "s_bf36029b0bf86b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "490b5abb-ad00-4371-b19e-5e3f62e885ae",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  }
+}
