@@ -19,7 +19,6 @@ const AUTOMATION_ID_SAFELIST = [
   '01ce8c81-3a67-4316-9d79-d94c2526ebd7', // Scheduling > Nylas V3 Migration
   '2c04d6da-cc01-4483-8eeb-6447349aaa99', // Manage FTUX Campaign
   'c9bc27ca-34f9-4751-9491-0bb260d36d23', // Manage Plan Is Ready Campaign
-  '06c89ffe-baf7-4404-82e7-fe4140478035', // Manage Plan Is Ready Campaign Cont.
   'cf09c790-b98b-4b67-bdac-b278a8e66350', // Manage Plan Is Ready Cancel
   'f95c7545-e451-4c2c-9e17-9f3b7b92d9e1', // [Manage][Dynamic Personas] Job Level Transition Campaign
   '588cb546-5217-4861-a887-10881727389a', // [Manage][Dynamic Personas] Job Level Transition Campaign Cancel
@@ -46,6 +45,8 @@ const AUTOMATION_ID_SAFELIST = [
   '6a341b5d-2c15-4ca3-8eea-8367a74daf35', // Standalone AI Continue Coaching Challenge Identified V2
   'df411a35-f309-4af5-a154-2c49c595547d', // Standalone AI Continue Coaching No Challenge V2
   'efd48eab-83f6-44d1-8502-82ee41f94de7', // Standalone AI Continue Coaching Next Steps Identified V2
+  'e198854e-95ae-4cf3-a94f-4e42fb58792c', // Manage Session Scheduled
+  '611e7fd6-d78d-4feb-bde8-40da4b650f21', // Manage Development Plan Ended Exit
 ]
 
 const DISABLED_EVENT_PREFIX = 'NOT_AVAILABLE ';
