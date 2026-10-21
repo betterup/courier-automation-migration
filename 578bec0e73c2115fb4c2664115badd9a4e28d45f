@@ -1,0 +1,30 @@
+subscription-topics/copy.js
+  s_f09f16588756f4::t_82d683a4a41b2f 6-24,35,39,41,84,100-101,121,133,148,182-183
+  s_f09f16588756f4::t_01520bc0a6ba81 135-136
+  s_f09f16588756f4::t_cb88b8f020bd54 149-179
+README.md
+  s_f09f16588756f4::t_91f01076d09ed3 33-35,38-39
+subscription-topics/compare.js
+  s_f09f16588756f4::t_39a92f293dffaf 17
+  s_f09f16588756f4::t_08a628061a0485 1-5
+index.js
+  s_f09f16588756f4::t_fdbd09a262e9c2 12,173-185
+subscription-topics/compare.test.js
+  s_f09f16588756f4::t_64a86b93ab155f 4,21,23-24,26,34,36-37,43,45-46,50,52-53,59,61-62,68,70,74,76-77
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "578bec0e73c2115fb4c2664115badd9a4e28d45f",
+  "prompts": {},
+  "sessions": {
+    "s_f09f16588756f4": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9187bc5b-bfee-4c86-a68c-bfc219565607",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  }
+}
