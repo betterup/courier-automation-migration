@@ -59,15 +59,6 @@ const getSections = async (environment, locale) => {
                       routingOptions
                       isArchived
                       topicIndex
-                      notificationTemplates {
-                        nodes {
-                          name
-                          templateId
-                          id
-                          __typename
-                    }
-                    __typename
-              }
                   templateId
                   templateName
                   __typename
@@ -104,11 +95,7 @@ const saveTopic = async (environment, locale, topic, sectionId) => {
   const data = await request(environment, locale, {
     operationName: "savePreferenceTemplate",
     variables: {
-      template: omit(topic, [
-        "__typename",
-        "linkedNotifications",
-        "notificationTemplates",
-      ]),
+      template: omit(topic, ["__typename", "linkedNotifications"]),
     },
     query:
       "mutation savePreferenceTemplate($template: PreferenceTemplateDataInput!, $isCopying: Boolean) {\n  savePreferenceTemplate(template: $template, isCopying: $isCopying) {\n    allowedPreferences\n    created\n    defaultStatus\n    id\n    isArchived\n    routingOptions\n    templateId\n    templateName\n    topicIndex\n    __typename\n  }\n}\n",
