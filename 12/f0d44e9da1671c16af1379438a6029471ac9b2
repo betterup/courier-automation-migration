@@ -1,0 +1,33 @@
+subscription-topics/compare.js
+  s_bf36029b0bf86b::t_2d1fa570f41a6b 2-6,18,27-28,34-37,47
+subscription-topics/compare.test.js
+  s_bf36029b0bf86b::t_bdaedf1f535186 12,22,31-32,34-40,42-44,47-48,50,52-55,59,66,73,79
+README.md
+  s_bf36029b0bf86b::t_29562176f0b002 30-42,50-92
+subscription-topics/copy-to-eu.js
+  s_bf36029b0bf86b::t_6a5bcbab2f4ca4 77-78,80-88,90
+  s_bf36029b0bf86b::t_ebe79a13a6231b 128-131,133,140-146,149-156,160
+  s_bf36029b0bf86b::t_1eedefa282d440 108
+  s_bf36029b0bf86b::t_6c92c35f6fa6ca 177
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "12f0d44e9da1671c16af1379438a6029471ac9b2",
+  "prompts": {},
+  "humans": {
+    "h_ef9aae23d539e9": {
+      "author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  },
+  "sessions": {
+    "s_bf36029b0bf86b": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "490b5abb-ad00-4371-b19e-5e3f62e885ae",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "PaoloCappelli <paolo.cappelli@betterup.co>"
+    }
+  }
+}
