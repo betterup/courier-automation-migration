@@ -74,21 +74,20 @@ const getSections = async (environment, locale) => {
   return get(data, "preferenceSections.nodes", []);
 };
 
-const saveSection = async (environment, locale, section) => {
+// Every topic, also topics that are in no section (preferenceSections misses those).
+const getTopics = async (environment, locale) => {
   const data = await request(environment, locale, {
-    operationName: "SavePreferenceSection",
-    variables: {
-      section: omit(section, ["__typename", "preferenceGroups"]),
-    },
-    query:
-      "mutation SavePreferenceSection($section: PreferenceSectionDataInput!) {\n  savePreferenceSection(section: $section) {\n    name\n    sectionId\n    sectionIndex\n    preferenceGroups {\n      nodes {\n        defaultStatus\n        linkedNotifications\n        templateId\n        templateName\n        __typename\n      }\n      __typename\n    }\n    __typename\n  }\n}\n",
+    variables: {},
+    query: `{
+              preferenceTemplates {
+                nodes {
+                  templateId
+                  templateName
+                }
+              }
+            }`,
   });
-  const savedId = get(data, "savePreferenceSection.sectionId");
-  if (savedId !== section.sectionId) {
-    throw Error(
-      `${locale} section "${section.name}" saved with id ${savedId}, not ${section.sectionId}. Stopping.`,
-    );
-  }
+  return get(data, "preferenceTemplates.nodes", []);
 };
 
 const saveTopic = async (environment, locale, topic, sectionId) => {
@@ -106,6 +105,7 @@ const saveTopic = async (environment, locale, topic, sectionId) => {
       `${locale} topic "${topic.templateName}" saved with id ${savedId}, not ${topic.templateId}. Stopping.`,
     );
   }
+  if (!sectionId) return;
 
   await request(environment, locale, {
     operationName: "addPreferenceGroup",
@@ -125,23 +125,39 @@ const printComparison = (comparison) => {
       console.log(`${t.topicId}  US: not found`);
       continue;
     }
-    const eu = t.inTarget ? "same id" : "missing";
+    let eu = "missing";
+    if (t.inTarget) {
+      eu = t.targetSectionName ? `same id, in section "${t.targetSectionName}"` : "same id, in no section";
+    }
     console.log(
-      `${t.topicId}  "${t.name}"  section "${t.sectionName}" (${t.sectionId})  US: found  EU: ${eu}`,
+      `${t.topicId}  "${t.name}"  US section "${t.sectionName}" (${t.sectionId})  EU: ${eu}`,
     );
     for (const otherId of t.sameNameInTarget) {
       console.log(`  EU has a topic with the same name and another id: ${otherId}`);
     }
   }
-  const sections = comparison.sectionsToCreate.map((s) => `"${s.name}" (${s.sectionId})`);
-  console.log(`Sections to create in EU: ${sections.join(", ") || "none"}`);
   console.log(`Topics to copy to EU: ${comparison.topicsToCopy.length}`);
+  for (const { topic, sectionId } of comparison.topicsToCopy) {
+    if (!sectionId) {
+      console.log(
+        `  ${topic.templateId}: EU has no section with the US section id, so it goes in no section`,
+      );
+    }
+  }
 };
+
+const compareWithEU = async (environment, usSections, topicIds) =>
+  compareTopics(
+    usSections,
+    await getSections(environment, "eu"),
+    await getTopics(environment, "eu"),
+    topicIds,
+  );
 
 const copyTopics = async (environment, topicIds, apply) => {
   console.log(`Environment: ${environment} (US => EU)`);
   const usSections = await getSections(environment, "us");
-  const comparison = compareTopics(usSections, await getSections(environment, "eu"), topicIds);
+  const comparison = await compareWithEU(environment, usSections, topicIds);
   printComparison(comparison);
 
   if (comparison.missingInSource.length > 0) {
@@ -152,17 +168,13 @@ const copyTopics = async (environment, topicIds, apply) => {
     return;
   }
 
-  for (const section of comparison.sectionsToCreate) {
-    await saveSection(environment, "eu", section);
-    console.log(`Created section "${section.name}" (${section.sectionId})`);
-  }
   for (const { topic, sectionId } of comparison.topicsToCopy) {
     await saveTopic(environment, "eu", topic, sectionId);
     console.log(`Copied topic "${topic.templateName}" (${topic.templateId})`);
   }
 
   console.log("\nRead back from EU:");
-  const after = compareTopics(usSections, await getSections(environment, "eu"), topicIds);
+  const after = await compareWithEU(environment, usSections, topicIds);
   printComparison(after);
   if (after.topicsToCopy.length > 0) {
     throw Error("Some topics are still missing in EU.");

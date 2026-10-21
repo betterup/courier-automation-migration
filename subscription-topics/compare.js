@@ -1,8 +1,9 @@
 // Compares the given subscription topics in the source and target
-// workspaces, and lists the sections and topics that the target lacks.
-// copy-to-eu.js prints this in a dry run and writes it with --apply. It makes no
-// Courier calls, so the tests can run it on sample data. Sections and
-// topics are the `preferenceSections` nodes of the Studio API.
+// workspaces, and lists the topics that the target lacks. copy-to-eu.js
+// prints this in a dry run and writes it with --apply. It makes no Courier
+// calls, so the tests can run it on sample data. Sections are the
+// `preferenceSections` nodes of the Studio API. Target topics are the
+// `preferenceTemplates` nodes, which also hold topics that are in no section.
 
 const topicsOf = (section) => section?.preferenceGroups?.nodes || [];
 
@@ -14,10 +15,8 @@ const findTopic = (sections, topicId) => {
   return null;
 };
 
-export const compareTopics = (sourceSections, targetSections, topicIds) => {
-  const targetTopics = targetSections.flatMap(topicsOf);
+export const compareTopics = (sourceSections, targetSections, targetTopics, topicIds) => {
   const targetSectionIds = new Set(targetSections.map((s) => s.sectionId));
-  const sectionsToCreate = new Map();
   const topicsToCopy = [];
 
   const topics = [...new Set(topicIds)].map((topicId) => {
@@ -25,16 +24,17 @@ export const compareTopics = (sourceSections, targetSections, topicIds) => {
     if (!source) return { topicId, inSource: false };
 
     const { section, topic } = source;
-    const inTarget = Boolean(findTopic(targetSections, topicId));
+    const inTarget = targetTopics.some((t) => t.templateId === topicId);
+    const targetSection = findTopic(targetSections, topicId)?.section;
     const sameNameInTarget = targetTopics
       .filter((t) => t.templateName === topic.templateName && t.templateId !== topicId)
       .map((t) => t.templateId);
 
     if (!inTarget) {
-      if (!targetSectionIds.has(section.sectionId)) {
-        sectionsToCreate.set(section.sectionId, section);
-      }
-      topicsToCopy.push({ topic, sectionId: section.sectionId });
+      // Sections are not created: the topic goes into the target section with
+      // the source section id, or into no section when the target lacks it.
+      const sectionId = targetSectionIds.has(section.sectionId) ? section.sectionId : null;
+      topicsToCopy.push({ topic, sectionId });
     }
 
     return {
@@ -44,6 +44,7 @@ export const compareTopics = (sourceSections, targetSections, topicIds) => {
       sectionId: section.sectionId,
       sectionName: section.name,
       inTarget,
+      targetSectionName: targetSection ? targetSection.name : null,
       sameNameInTarget,
     };
   });
@@ -51,7 +52,6 @@ export const compareTopics = (sourceSections, targetSections, topicIds) => {
   return {
     topics,
     missingInSource: topics.filter((t) => !t.inSource).map((t) => t.topicId),
-    sectionsToCreate: [...sectionsToCreate.values()],
     topicsToCopy,
   };
 };
