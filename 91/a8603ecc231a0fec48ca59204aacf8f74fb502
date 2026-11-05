@@ -1,0 +1,23 @@
+update-variables.test.js
+  s_682a71738480a6::t_2de713b05cec36 1-46
+update-variables.js
+  s_682a71738480a6::t_0c3adca243c859 1-9
+index.js
+  s_682a71738480a6::t_3495c7014d1487 12
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "91a8603ecc231a0fec48ca59204aacf8f74fb502",
+  "prompts": {},
+  "sessions": {
+    "s_682a71738480a6": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "cb827d16-9312-44a7-bee5-2522658afb14",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "anshulsuneja-betterup <anshul.suneja@betterup.co>"
+    }
+  }
+}
