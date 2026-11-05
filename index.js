@@ -9,6 +9,7 @@ import {
   saveAutomationV2GraphQL,
   saveAutomationV2TemplateQl,
 } from "./utils.js";
+import { updateVariables } from "./update-variables.js";
 import { authorizations, graphqlEndpoint } from "./variables.js";
 
 const AUTOMATION_ID_SAFELIST = [
@@ -73,13 +74,6 @@ const getAutomation = async (environment, locale, template_id, version) => {
     template: get(template, "data.automationsV2.template", {}),
     nodes: get(nodes, "data.automationsV2.nodes", []),
   };
-};
-
-const updateVariables = (content) => {
-  return content.replace(/api\.courier\.com/, "api.eu.courier.com")
-                .replace(/app\.betterup\.co/, "app.betterup.eu")
-                .replace(/app\.staging\.betterup\.io/, "app.staging.eu.betterup.io")
-                .replace(/topic-rex-lb-1225292210\.us-west-2\.elb\.amazonaws\.com/, "topic-rex-lb-1225292210.us-west-2.elb.amazonaws.com");
 };
 
 const updateAutomation = async (environment, locale, nodes, template, disable=false) => {
