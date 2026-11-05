@@ -44,3 +44,13 @@ test("does not change app.betterup.com links", () => {
 
   assert.equal(updateVariables(content), content);
 });
+
+test("does not change links that are already on EU hosts", () => {
+  const content = body([
+    { webhook: "https://api.eu.courier.com/a" },
+    { url: "https://app.betterup.eu/a" },
+    { url: "https://app.staging.eu.betterup.io/a" },
+  ]);
+
+  assert.equal(updateVariables(content), content);
+});
